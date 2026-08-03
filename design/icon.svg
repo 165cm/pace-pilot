@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Circular app icon with a 4 px transparent package safe area. -->
+  <circle cx="128" cy="128" r="124" fill="#05070a"/>
+  <circle cx="128" cy="128" r="79" fill="none" stroke="#303846" stroke-width="20"/>
+  <path d="M128 49a79 79 0 1 1-79 79" fill="none" stroke="#2f80ed" stroke-width="20" stroke-linecap="round"/>
+  <path d="M49 128a79 79 0 0 1 23-56" fill="none" stroke="#ffa726" stroke-width="20" stroke-linecap="round"/>
+  <path d="M128 78v52l35 21" fill="none" stroke="#ffffff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="128" cy="128" r="10" fill="#ffffff"/>
+</svg>
