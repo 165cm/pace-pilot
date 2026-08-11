@@ -1,16 +1,16 @@
 {
   "configVersion": "v3",
   "app": {
-    "appId": 2001001,
+    "appId": 1123172,
     "appName": "PacePilot",
     "appType": "app",
     "version": {
-      "code": 7,
-      "name": "1.4.0"
+      "code": 1,
+      "name": "1.0.0"
     },
     "icon": "icon.png",
     "vender": "165cm",
-    "description": "A simple interval timer that keeps work moving"
+    "description": "A focused Pomodoro timer for your wrist"
   },
   "permissions": [
     "data:os.device.info",
@@ -32,7 +32,9 @@
           "pages": [
             "page/home",
             "page/timer",
-            "page/complete"
+            "page/complete",
+            "page/history",
+            "page/history-day"
           ]
         },
         "app-service": {

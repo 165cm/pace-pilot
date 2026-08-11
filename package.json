@@ -1,14 +1,14 @@
 {
   "name": "pace-pilot",
-  "version": "1.4.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Zepp OS interval timer for finishing work within a planned time.",
+  "description": "A focused Pomodoro timer for Amazfit watches.",
   "scripts": {
     "build": "zeus build --target \"Amazfit Bip 6\"",
     "preview": "zeus preview",
     "test": "node --test test/*.test.js test/*.test.cjs",
-    "check": "node --check app.js && node --check core/timer-engine.js && node --check core/format.js && node --check core/layout.js && node --check services/storage.js && node --check services/alarm-manager.js && node --check services/session-actions.js && node --check app-service/boundary.js && node --check ui/common.js && node --check page/home.js && node --check page/timer.js && node --check page/complete.js"
+    "check": "node --check app.js && node --check core/timer-engine.js && node --check core/format.js && node --check core/history.js && node --check core/layout.js && node --check services/storage.js && node --check services/alarm-manager.js && node --check services/session-actions.js && node --check app-service/boundary.js && node --check ui/common.js && node --check ui/history-card.js && node --check page/home.js && node --check page/timer.js && node --check page/complete.js && node --check page/history.js && node --check page/history-day.js"
   },
   "_moduleAliases": {
     "zeppos-app-utils": "node_modules/@zeppos/zeus-cli/private-modules/zeppos-app-utils"

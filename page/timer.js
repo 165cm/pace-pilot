@@ -4,23 +4,37 @@ import { replace } from "@zos/router";
 import { setWakeUpRelaunch } from "@zos/display";
 import { px } from "@zos/utils";
 import { getSnapshot } from "../core/timer-engine";
+import { twoButtonLayout } from "../core/layout";
 import { formatClockFromDate, formatDuration } from "../core/format";
 import { getActiveSession } from "../services/storage";
 import {
   finishSession, pauseActiveSession, resumeActiveSession, skipActivePhase,
 } from "../services/session-actions";
 import {
-  WIDTH, HEIGHT, COLORS, textStyle, buttonStyle, drawBackground, SAFE_SIDE,
+  WIDTH, HEIGHT, IS_SQUARE, COLORS, textStyle, buttonStyle, drawBackground,
+  SAFE_SIDE, SAFE_TOP, SAFE_BOTTOM,
 } from "../ui/common";
 
 const timeSensor = new Time();
 const vibrator = new Vibrator();
+const ARC_START = -225;
+const ARC_SWEEP = 270;
 
 Page({
   state: {
-    session: null, timer: null, phaseText: null, roundText: null,
-    countdownText: null, detailText: null, progressFill: null,
-    pauseButton: null, skipButton: null, lastPhase: null,
+    session: null,
+    timer: null,
+    startTimeText: null,
+    currentTimeText: null,
+    endTimeText: null,
+    roundSegments: [],
+    phaseText: null,
+    countdownText: null,
+    elapsedText: null,
+    progressArc: null,
+    pauseButton: null,
+    skipButton: null,
+    lastPhase: null,
   },
 
   onInit() { this.state.session = getActiveSession(); },
@@ -29,46 +43,100 @@ Page({
     if (!this.state.session) return replace({ url: "page/home" });
     setWakeUpRelaunch({ relaunch: true });
     drawBackground();
-    this.state.phaseText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      y: px(24), h: px(38), text: "", size: 27,
-    }));
-    this.state.roundText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      y: px(64), h: px(28), text: "", size: 19, color: COLORS.muted,
-    }));
-    this.state.countdownText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      x: px(12), y: px(105), w: WIDTH - px(24), h: px(94), text: "", size: 72,
-    }));
-    hmUI.createWidget(hmUI.widget.FILL_RECT, {
-      x: SAFE_SIDE, y: px(218), w: WIDTH - SAFE_SIDE * 2, h: px(10),
-      color: COLORS.faint, radius: px(5),
-    });
-    this.state.progressFill = hmUI.createWidget(hmUI.widget.FILL_RECT, {
-      x: SAFE_SIDE, y: px(218), w: px(1), h: px(10),
-      color: COLORS.work, radius: px(5),
-    });
-    this.state.detailText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      x: SAFE_SIDE, y: px(243), w: WIDTH - SAFE_SIDE * 2, h: px(62),
-      text: "", size: 18, color: COLORS.muted,
-    }));
-
-    const buttonY = HEIGHT - px(124);
-    const gap = px(8);
-    const width = Math.floor((WIDTH - SAFE_SIDE * 2 - gap * 2) / 3);
-    const buttons = [
-      ["End", COLORS.danger, () => this.end()],
-      ["Skip", COLORS.panel, () => this.skip()],
-      ["Pause", COLORS.work, () => this.togglePause()],
-    ];
-    buttons.forEach(([text, color, click], index) => {
-      const widget = hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
-        x: SAFE_SIDE + index * (width + gap), y: buttonY, w: width, h: px(58),
-        text, size: 18, normal: color, click,
-      }));
-      if (index === 1) this.state.skipButton = widget;
-      if (index === 2) this.state.pauseButton = widget;
-    });
+    this.buildTimeline();
+    this.buildRoundTimer();
+    this.buildControls();
     this.update();
     this.state.timer = setInterval(() => this.update(), 1000);
+  },
+
+  buildTimeline() {
+    const gap = px(6);
+    const columnWidth = Math.floor((WIDTH - SAFE_SIDE * 2 - gap * 2) / 3);
+    const labels = ["Start", "Now", "End"];
+    const keys = ["startTimeText", "currentTimeText", "endTimeText"];
+    labels.forEach((label, index) => {
+      const x = SAFE_SIDE + index * (columnWidth + gap);
+      hmUI.createWidget(hmUI.widget.TEXT, textStyle({
+        x, y: SAFE_TOP, w: columnWidth, h: px(20),
+        text: label, size: 14, color: COLORS.muted,
+      }));
+      this.state[keys[index]] = hmUI.createWidget(
+        hmUI.widget.TEXT,
+        textStyle({
+          x, y: SAFE_TOP + px(19), w: columnWidth, h: px(31),
+          text: "", size: IS_SQUARE ? 22 : 23,
+        }),
+      );
+    });
+
+    const barY = SAFE_TOP + px(57);
+    const gapWidth = px(4);
+    const segmentWidth = Math.floor(
+      (WIDTH - SAFE_SIDE * 2 - gapWidth * 2) / 3,
+    );
+    this.state.roundSegments = Array.from({ length: 3 }, (_, index) => {
+      const x = SAFE_SIDE + index * (segmentWidth + gapWidth);
+      hmUI.createWidget(hmUI.widget.FILL_RECT, {
+        x, y: barY, w: segmentWidth, h: px(8),
+        color: COLORS.faint, radius: px(4),
+      });
+      return hmUI.createWidget(hmUI.widget.FILL_RECT, {
+        x, y: barY, w: px(1), h: px(8),
+        color: COLORS.work, radius: px(4),
+      });
+    });
+  },
+
+  buildRoundTimer() {
+    const arcSize = px(IS_SQUARE ? 246 : 280);
+    const arcX = Math.round((WIDTH - arcSize) / 2);
+    const arcY = px(IS_SQUARE ? 88 : 100);
+    hmUI.createWidget(hmUI.widget.ARC, {
+      x: arcX, y: arcY, w: arcSize, h: arcSize,
+      start_angle: ARC_START, end_angle: ARC_START + ARC_SWEEP,
+      line_width: px(7), color: COLORS.faint,
+    });
+    this.state.progressArc = hmUI.createWidget(hmUI.widget.ARC, {
+      x: arcX, y: arcY, w: arcSize, h: arcSize,
+      start_angle: ARC_START, end_angle: ARC_START + 1,
+      line_width: px(7), color: COLORS.work,
+    });
+    this.state.phaseText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
+      x: arcX + px(20), y: arcY + px(34), w: arcSize - px(40), h: px(34),
+      text: "", size: 20, color: COLORS.muted,
+    }));
+    this.state.countdownText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
+      x: arcX + px(12), y: arcY + px(76), w: arcSize - px(24), h: px(78),
+      text: "", size: IS_SQUARE ? 68 : 72,
+    }));
+    this.state.elapsedText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
+      x: arcX + px(20), y: arcY + px(155), w: arcSize - px(40), h: px(38),
+      text: "", size: 21, color: COLORS.muted,
+    }));
+    this.state.skipButton = hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
+      x: Math.round((WIDTH - px(126)) / 2), y: px(329),
+      w: px(126), h: px(30), text: "Skip phase ›", size: 14,
+      normal: COLORS.background, pressed: COLORS.panel,
+      color: COLORS.muted, click: () => this.skip(),
+    }));
+  },
+
+  buildControls() {
+    const y = HEIGHT - SAFE_BOTTOM - px(54);
+    const controls = twoButtonLayout({ width: WIDTH, margin: SAFE_SIDE, gap: px(10) });
+    hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
+      x: controls.left.x, y, w: controls.left.w, h: px(54),
+      text: "■ Stop", size: 20,
+      normal: COLORS.danger, pressed: COLORS.dangerPressed,
+      click: () => this.end(),
+    }));
+    this.state.pauseButton = hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
+      x: controls.right.x, y, w: controls.right.w, h: px(54),
+      text: "Ⅱ Pause", size: 19,
+      normal: COLORS.primaryAction, pressed: COLORS.panelPressed,
+      click: () => this.togglePause(),
+    }));
   },
 
   update() {
@@ -77,35 +145,65 @@ Page({
     if (stored?.id === this.state.session.id) this.state.session = stored;
     const snapshot = getSnapshot(this.state.session, nowMs);
     if (snapshot.isCompleted) return this.complete(nowMs);
+
     const accent = snapshot.phase === "work" ? COLORS.work : COLORS.chase;
-    const label = snapshot.isPaused ? "PAUSED" : snapshot.phaseLabel;
-    this.state.phaseText.setProperty(hmUI.prop.MORE, {
-      x: 0, y: px(24), w: WIDTH, h: px(38), text: label,
-      text_size: px(27), color: snapshot.isPaused ? COLORS.muted : accent,
-      align_h: hmUI.align.CENTER_H, align_v: hmUI.align.CENTER_V,
+    const phaseLabel = snapshot.isPaused
+      ? `Paused · R${snapshot.currentRound}`
+      : `${snapshot.phaseLabel} · R${snapshot.currentRound}`;
+    this.state.startTimeText.setProperty(
+      hmUI.prop.TEXT, formatClockFromDate(new Date(this.state.session.startedAt)),
+    );
+    this.state.currentTimeText.setProperty(
+      hmUI.prop.TEXT, formatClockFromDate(new Date(nowMs)),
+    );
+    this.state.endTimeText.setProperty(
+      hmUI.prop.TEXT, formatClockFromDate(new Date(snapshot.plannedEndAt)),
+    );
+    this.state.phaseText.setProperty(hmUI.prop.TEXT, phaseLabel);
+    this.state.countdownText.setProperty(hmUI.prop.TEXT, formatDuration(snapshot.phaseRemainingSeconds));
+    this.state.elapsedText.setProperty(hmUI.prop.TEXT, `Total ${formatDuration(snapshot.elapsedSeconds)}`);
+    this.state.pauseButton.setProperty(
+      hmUI.prop.TEXT, snapshot.isPaused ? "▶ Resume" : "Ⅱ Pause",
+    );
+    this.state.skipButton.setProperty(
+      hmUI.prop.TEXT, snapshot.isPaused ? "Paused" : "Skip phase ›",
+    );
+
+    const endAngle = ARC_START + Math.max(1, Math.round(snapshot.phaseProgress * ARC_SWEEP));
+    this.state.progressArc.setProperty(hmUI.prop.MORE, {
+      x: this.state.progressArc.getProperty(hmUI.prop.X),
+      y: this.state.progressArc.getProperty(hmUI.prop.Y),
+      w: this.state.progressArc.getProperty(hmUI.prop.W),
+      h: this.state.progressArc.getProperty(hmUI.prop.H),
+      start_angle: ARC_START, end_angle: endAngle, line_width: px(7),
+      color: snapshot.isPaused ? COLORS.muted : accent,
     });
-    this.state.roundText.setProperty(
-      hmUI.prop.TEXT, `Round ${snapshot.currentRound} / ${snapshot.totalRounds}`,
-    );
-    this.state.countdownText.setProperty(
-      hmUI.prop.TEXT, formatDuration(snapshot.phaseRemainingSeconds),
-    );
-    this.state.detailText.setProperty(
-      hmUI.prop.TEXT,
-      `End ${formatClockFromDate(new Date(snapshot.plannedEndAt))}    ` +
-      `Elapsed ${formatDuration(snapshot.elapsedSeconds)}`,
-    );
-    this.state.progressFill.setProperty(hmUI.prop.MORE, {
-      x: SAFE_SIDE, y: px(218),
-      w: Math.max(px(1), Math.round((WIDTH - SAFE_SIDE * 2) * snapshot.overallProgress)),
-      h: px(10), color: snapshot.isPaused ? COLORS.muted : accent, radius: px(5),
-    });
-    this.state.pauseButton.setProperty(hmUI.prop.TEXT, snapshot.isPaused ? "Resume" : "Pause");
-    this.state.skipButton.setProperty(hmUI.prop.TEXT, snapshot.isPaused ? "—" : "Skip");
+    this.updateRoundSegments(snapshot, accent);
+
     if (this.state.lastPhase && this.state.lastPhase !== snapshot.phase && !snapshot.isPaused) {
       vibrator.start({ mode: VIBRATOR_SCENE_SHORT_MIDDLE });
     }
     this.state.lastPhase = snapshot.phase;
+  },
+
+  updateRoundSegments(snapshot, accent) {
+    const gap = px(4);
+    const segmentWidth = Math.floor((WIDTH - SAFE_SIDE * 2 - gap * 2) / 3);
+    const roundSeconds = this.state.session.workSeconds + this.state.session.breakSeconds;
+    this.state.roundSegments.forEach((segment, index) => {
+      const progress = Math.max(0, Math.min(
+        1,
+        (snapshot.elapsedSeconds - index * roundSeconds) / roundSeconds,
+      ));
+      segment.setProperty(hmUI.prop.MORE, {
+        x: SAFE_SIDE + index * (segmentWidth + gap),
+        y: SAFE_TOP + px(57),
+        w: Math.max(px(1), Math.round(segmentWidth * progress)),
+        h: px(8),
+        color: snapshot.isPaused ? COLORS.muted : accent,
+        radius: px(4),
+      });
+    });
   },
 
   togglePause() {

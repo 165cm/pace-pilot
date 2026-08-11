@@ -142,8 +142,13 @@ export function skipPhase(session, nowMs) {
 export function completeSession(session, nowMs, reason = "completed") {
   const snapshot = getSnapshot(session, nowMs);
   return {
+    id: session.id,
     presetIndex: session.presetIndex,
+    startedAt: session.startedAt,
     completedAt: Math.floor(nowMs),
+    workSeconds: session.workSeconds,
+    breakSeconds: session.breakSeconds,
+    actualSeconds: snapshot.elapsedSeconds,
     totalSeconds: reason === "completed"
       ? session.plannedSeconds
       : snapshot.elapsedSeconds,
