@@ -1,0 +1,65 @@
+{
+  "configVersion": "v3",
+  "app": {
+    "appId": 2001001,
+    "appName": "PacePilot",
+    "appType": "app",
+    "version": {
+      "code": 7,
+      "name": "1.4.0"
+    },
+    "icon": "icon.png",
+    "vender": "165cm",
+    "description": "A simple interval timer that keeps work moving"
+  },
+  "permissions": [
+    "data:os.device.info",
+    "device:os.alarm",
+    "device:os.notification",
+    "device:os.local_storage"
+  ],
+  "runtime": {
+    "apiVersion": {
+      "compatible": "3.0",
+      "target": "4.2",
+      "minVersion": "3.0"
+    }
+  },
+  "targets": {
+    "pace": {
+      "module": {
+        "page": {
+          "pages": [
+            "page/home",
+            "page/timer",
+            "page/complete"
+          ]
+        },
+        "app-service": {
+          "services": [
+            "app-service/boundary"
+          ]
+        }
+      },
+      "platforms": [
+        {
+          "st": "r",
+          "dw": 480
+        },
+        {
+          "st": "s",
+          "dw": 390
+        }
+      ]
+    }
+  },
+  "i18n": {
+    "ja-JP": {
+      "appName": "PacePilot"
+    },
+    "en-US": {
+      "appName": "PacePilot"
+    }
+  },
+  "defaultLanguage": "en-US"
+}
