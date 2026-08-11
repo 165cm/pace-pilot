@@ -1,6 +1,6 @@
 import hmUI from "@zos/ui";
 import { Time, Vibrator, VIBRATOR_SCENE_SHORT_MIDDLE } from "@zos/sensor";
-import { replace } from "@zos/router";
+import { replace, push } from "@zos/router";
 import { px } from "@zos/utils";
 import { PRESETS, ROUNDS, normalizePreferences } from "../core/timer-engine";
 import { getPreferences, savePreferences, getActiveSession } from "../services/storage";
@@ -42,8 +42,14 @@ Page({
     }));
 
     this.state.summaryText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      x: SAFE_SIDE, y: px(202), w: WIDTH - SAFE_SIDE * 2, h: px(112), text: "",
+      x: SAFE_SIDE, y: px(196), w: WIDTH - SAFE_SIDE * 2, h: px(94), text: "",
       size: 21, color: COLORS.muted,
+    }));
+    hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
+      x: SAFE_SIDE + px(54), y: px(294),
+      w: WIDTH - SAFE_SIDE * 2 - px(108), h: px(42),
+      text: "History  ›", size: 18,
+      click: () => push({ url: "page/history" }),
     }));
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: SAFE_SIDE, y: HEIGHT - px(98), w: WIDTH - SAFE_SIDE * 2, h: px(64),

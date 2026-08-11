@@ -6,6 +6,7 @@ import {
 } from "../core/timer-engine.js";
 import { formatDuration } from "../core/format.js";
 import { isInsideSafeArea, twoButtonLayout } from "../core/layout.js";
+import { groupHistoryByDate } from "../core/history.js";
 
 const START = Date.UTC(2026, 6, 31, 10, 0, 0);
 const session = () => createSession({ nowMs: START, presetIndex: 1 });
@@ -61,8 +62,19 @@ test("skip advances directly to the next phase", () => {
 test("completion records the selected preset and planned total", () => {
   const record = completeSession(session(), START + 60 * 60 * 1000);
   assert.equal(record.presetIndex, 1);
+  assert.equal(record.startedAt, START);
+  assert.equal(record.actualSeconds, 60 * 60);
   assert.equal(record.totalSeconds, 60 * 60);
   assert.equal(record.rounds, 3);
+});
+
+test("history groups completed sessions by date", () => {
+  const first = completeSession(session(), START + 60 * 60 * 1000);
+  const nextDay = createSession({ nowMs: START + 24 * 60 * 60 * 1000, presetIndex: 0 });
+  const second = completeSession(nextDay, nextDay.startedAt + 45 * 60 * 1000);
+  const groups = groupHistoryByDate([first, second]);
+  assert.equal(groups.length, 2);
+  assert.equal(groups[0].records[0].presetIndex, 0);
 });
 
 test("MM:SS remains zero-padded", () => {
