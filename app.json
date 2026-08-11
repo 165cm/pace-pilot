@@ -31,14 +31,8 @@
         "page": {
           "pages": [
             "page/home",
-            "page/custom",
             "page/timer",
-            "page/menu",
-            "page/complete",
-            "page/history",
-            "page/history-day",
-            "page/tasks",
-            "page/task-edit"
+            "page/complete"
           ]
         },
         "app-service": {

@@ -8,7 +8,7 @@
     "build": "zeus build --target \"Amazfit Bip 6\"",
     "preview": "zeus preview",
     "test": "node --test test/*.test.js test/*.test.cjs",
-    "check": "node --check app.js && node --check core/timer-engine.js && node --check core/history.js && node --check core/layout.js && node --check services/alarm-manager.js && node --check services/session-actions.js && node --check app-service/boundary.js && node --check ui/history-card.js && node --check page/home.js && node --check page/custom.js && node --check page/timer.js && node --check page/complete.js && node --check page/history.js && node --check page/history-day.js && node --check page/tasks.js && node --check page/task-edit.js"
+    "check": "node --check app.js && node --check core/timer-engine.js && node --check core/format.js && node --check core/layout.js && node --check services/storage.js && node --check services/alarm-manager.js && node --check services/session-actions.js && node --check app-service/boundary.js && node --check ui/common.js && node --check page/home.js && node --check page/timer.js && node --check page/complete.js"
   },
   "_moduleAliases": {
     "zeppos-app-utils": "node_modules/@zeppos/zeus-cli/private-modules/zeppos-app-utils"
