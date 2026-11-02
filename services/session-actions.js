@@ -36,8 +36,8 @@ function reschedule(session, nowMs) {
   return active;
 }
 
-export function startNewSession({ nowMs, presetIndex }) {
-  const session = createSession({ nowMs, presetIndex });
+export function startNewSession({ nowMs, presetIndex, customPreset }) {
+  const session = createSession({ nowMs, presetIndex, customPreset });
   const scheduled = scheduleInitialAlarms(session);
   if (!scheduled.ok) {
     showToast({ content: "Could not set timer alerts" });

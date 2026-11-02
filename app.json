@@ -31,6 +31,7 @@
         "page": {
           "pages": [
             "page/home",
+            "page/custom",
             "page/timer",
             "page/complete",
             "page/history",

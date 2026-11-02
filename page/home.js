@@ -2,7 +2,7 @@ import hmUI from "@zos/ui";
 import { Time, Vibrator, VIBRATOR_SCENE_SHORT_MIDDLE } from "@zos/sensor";
 import { replace, push } from "@zos/router";
 import { px } from "@zos/utils";
-import { PRESETS, ROUNDS, normalizePreferences } from "../core/timer-engine";
+import { getPresets, ROUNDS, normalizePreferences } from "../core/timer-engine";
 import { getPreferences, savePreferences, getActiveSession } from "../services/storage";
 import { ensureTimerPermissions, startNewSession } from "../services/session-actions";
 import {
@@ -34,7 +34,7 @@ Page({
     }));
     this.state.presetText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
       x: SAFE_SIDE + px(68), y, w: WIDTH - SAFE_SIDE * 2 - px(136), h: px(58),
-      text: "", size: 32,
+      text: "", size: 28,
     }));
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: WIDTH - SAFE_SIDE - px(58), y, w: px(58), h: px(58), text: "›", size: 34,
@@ -45,12 +45,22 @@ Page({
       x: SAFE_SIDE, y: px(196), w: WIDTH - SAFE_SIDE * 2, h: px(94), text: "",
       size: 21, color: COLORS.muted,
     }));
+
+    const actionGap = px(10);
+    const actionWidth = Math.floor((WIDTH - SAFE_SIDE * 2 - actionGap) / 2);
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
-      x: SAFE_SIDE + px(54), y: px(294),
-      w: WIDTH - SAFE_SIDE * 2 - px(108), h: px(42),
-      text: "History  ›", size: 18,
+      x: SAFE_SIDE, y: px(294),
+      w: actionWidth, h: px(42),
+      text: "Custom  ›", size: 17,
+      click: () => push({ url: "page/custom" }),
+    }));
+    hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
+      x: SAFE_SIDE + actionWidth + actionGap, y: px(294),
+      w: actionWidth, h: px(42),
+      text: "History  ›", size: 17,
       click: () => push({ url: "page/history" }),
     }));
+
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: SAFE_SIDE, y: HEIGHT - px(98), w: WIDTH - SAFE_SIDE * 2, h: px(64),
       text: "Start", size: 29, normal: COLORS.work, pressed: COLORS.workPressed,
@@ -60,18 +70,21 @@ Page({
   },
 
   changePreset(delta) {
-    const current = normalizePreferences(this.state.preferences).presetIndex;
-    const presetIndex = (current + delta + PRESETS.length) % PRESETS.length;
-    this.state.preferences = { presetIndex };
+    const prefs = normalizePreferences(this.state.preferences);
+    const presets = getPresets(prefs);
+    const presetIndex = (prefs.presetIndex + delta + presets.length) % presets.length;
+    this.state.preferences = { ...prefs, presetIndex };
     savePreferences(this.state.preferences);
     this.refresh();
   },
 
   refresh() {
-    const { presetIndex } = normalizePreferences(this.state.preferences);
-    const preset = PRESETS[presetIndex];
+    const prefs = normalizePreferences(this.state.preferences);
+    const presets = getPresets(prefs);
+    const preset = presets[prefs.presetIndex] || presets[1];
     const total = (preset.workMinutes + preset.breakMinutes) * ROUNDS;
-    this.state.presetText?.setProperty(hmUI.prop.TEXT, preset.label);
+    const label = preset.isCustom ? `★ ${preset.label}` : preset.label;
+    this.state.presetText?.setProperty(hmUI.prop.TEXT, label);
     this.state.summaryText?.setProperty(
       hmUI.prop.TEXT,
       `Work  ${preset.workMinutes} min     Break  ${preset.breakMinutes} min\n` +
@@ -80,9 +93,13 @@ Page({
   },
 
   start() {
-    const { presetIndex } = normalizePreferences(this.state.preferences);
+    const prefs = normalizePreferences(this.state.preferences);
     ensureTimerPermissions(() => {
-      if (startNewSession({ nowMs: timeSensor.getTime(), presetIndex })) {
+      if (startNewSession({
+        nowMs: timeSensor.getTime(),
+        presetIndex: prefs.presetIndex,
+        customPreset: prefs.customPreset,
+      })) {
         vibrator.start({ mode: VIBRATOR_SCENE_SHORT_MIDDLE });
         replace({ url: "page/timer" });
       }
