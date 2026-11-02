@@ -11,10 +11,23 @@ import { groupHistoryByDate } from "../core/history.js";
 const START = Date.UTC(2026, 6, 31, 10, 0, 0);
 const session = () => createSession({ nowMs: START, presetIndex: 1 });
 
-test("v1 exposes exactly three fixed presets and defaults to 15 / 5", () => {
-  assert.deepEqual(PRESETS.map((item) => item.label), ["10 / 5", "15 / 5", "20 / 10"]);
+test("exposes fixed presets including classic 25 / 5 and defaults to 15 / 5", () => {
+  assert.deepEqual(PRESETS.map((item) => item.label), [
+    "10 / 5",
+    "15 / 5",
+    "20 / 10",
+    "25 / 5",
+    "50 / 10",
+  ]);
   assert.equal(normalizePreferences().presetIndex, 1);
   assert.equal(ROUNDS, 3);
+});
+
+test("25 / 5 preset calculates 90 minute total for 3 rounds", () => {
+  const value = createSession({ nowMs: START, presetIndex: 3 });
+  assert.equal(value.workSeconds, 25 * 60);
+  assert.equal(value.breakSeconds, 5 * 60);
+  assert.equal(value.plannedSeconds, 90 * 60);
 });
 
 test("a session starts in WORK round 1 with a 60 minute total", () => {

@@ -4,6 +4,8 @@ export const PRESETS = Object.freeze([
   Object.freeze({ workMinutes: 10, breakMinutes: 5, label: "10 / 5" }),
   Object.freeze({ workMinutes: 15, breakMinutes: 5, label: "15 / 5" }),
   Object.freeze({ workMinutes: 20, breakMinutes: 10, label: "20 / 10" }),
+  Object.freeze({ workMinutes: 25, breakMinutes: 5, label: "25 / 5" }),
+  Object.freeze({ workMinutes: 50, breakMinutes: 10, label: "50 / 10" }),
 ]);
 
 export const DEFAULT_PREFERENCES = Object.freeze({ presetIndex: 1 });
