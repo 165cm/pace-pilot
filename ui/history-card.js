@@ -8,6 +8,7 @@ import { WIDTH, COLORS, textStyle, SAFE_SIDE } from "./common";
 export const HISTORY_CARD_HEIGHT = px(106);
 
 function recordPreset(record) {
+  if (record.presetLabel) return `${record.presetLabel} min`;
   const preset = PRESETS[record.presetIndex];
   if (preset) return `${preset.label} min`;
   const work = Math.round((record.workSeconds || 0) / 60);

@@ -1,36 +1,79 @@
 export const ROUNDS = 3;
 
-export const PRESETS = Object.freeze([
+export const DEFAULT_PRESETS = Object.freeze([
   Object.freeze({ workMinutes: 10, breakMinutes: 5, label: "10 / 5" }),
   Object.freeze({ workMinutes: 15, breakMinutes: 5, label: "15 / 5" }),
   Object.freeze({ workMinutes: 20, breakMinutes: 10, label: "20 / 10" }),
+  Object.freeze({ workMinutes: 25, breakMinutes: 5, label: "25 / 5" }),
+  Object.freeze({ workMinutes: 50, breakMinutes: 10, label: "50 / 10" }),
 ]);
 
-export const DEFAULT_PREFERENCES = Object.freeze({ presetIndex: 1 });
+export const DEFAULT_CUSTOM_PRESET = Object.freeze({
+  workMinutes: 30,
+  breakMinutes: 10,
+  label: "30 / 10",
+  isCustom: true,
+});
+
+export const PRESETS = DEFAULT_PRESETS;
+
+export const DEFAULT_PREFERENCES = Object.freeze({
+  presetIndex: 1,
+  customPreset: DEFAULT_CUSTOM_PRESET,
+});
 
 export function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
-export function normalizePreferences(value = {}) {
+export function normalizeCustomPreset(value) {
+  const workMinutes = clamp(
+    Number.isInteger(value?.workMinutes) ? value.workMinutes : DEFAULT_CUSTOM_PRESET.workMinutes,
+    1,
+    120,
+  );
+  const breakMinutes = clamp(
+    Number.isInteger(value?.breakMinutes) ? value.breakMinutes : DEFAULT_CUSTOM_PRESET.breakMinutes,
+    1,
+    60,
+  );
   return {
-    presetIndex: clamp(
-      Number.isInteger(value.presetIndex) ? value.presetIndex : 1,
-      0,
-      PRESETS.length - 1,
-    ),
+    workMinutes,
+    breakMinutes,
+    label: `${workMinutes} / ${breakMinutes}`,
+    isCustom: true,
   };
 }
 
-export function createSession({ nowMs, presetIndex = 1 }) {
-  const index = normalizePreferences({ presetIndex }).presetIndex;
-  const preset = PRESETS[index];
+export function getPresets(preferences = {}) {
+  const custom = normalizeCustomPreset(preferences?.customPreset);
+  return [...DEFAULT_PRESETS, custom];
+}
+
+export function normalizePreferences(value = {}) {
+  const customPreset = normalizeCustomPreset(value?.customPreset);
+  const presetsCount = DEFAULT_PRESETS.length + 1;
+  return {
+    presetIndex: clamp(
+      Number.isInteger(value?.presetIndex) ? value.presetIndex : 1,
+      0,
+      presetsCount - 1,
+    ),
+    customPreset,
+  };
+}
+
+export function createSession({ nowMs, presetIndex = 1, customPreset }) {
+  const prefs = normalizePreferences({ presetIndex, customPreset });
+  const presets = getPresets(prefs);
+  const preset = presets[prefs.presetIndex] || presets[1];
   const workSeconds = preset.workMinutes * 60;
   const breakSeconds = preset.breakMinutes * 60;
   const plannedSeconds = (workSeconds + breakSeconds) * ROUNDS;
   return {
-    id: `${Math.floor(nowMs)}-${index}`,
-    presetIndex: index,
+    id: `${Math.floor(nowMs)}-${prefs.presetIndex}`,
+    presetIndex: prefs.presetIndex,
+    presetLabel: preset.label,
     startedAt: Math.floor(nowMs),
     workSeconds,
     breakSeconds,
@@ -144,6 +187,7 @@ export function completeSession(session, nowMs, reason = "completed") {
   return {
     id: session.id,
     presetIndex: session.presetIndex,
+    presetLabel: session.presetLabel || null,
     startedAt: session.startedAt,
     completedAt: Math.floor(nowMs),
     workSeconds: session.workSeconds,

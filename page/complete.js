@@ -14,7 +14,8 @@ Page({
   build() {
     const record = this.state.record;
     if (!record || record.reason !== "completed") return replace({ url: "page/home" });
-    const preset = PRESETS[record.presetIndex];
+    const label = record.presetLabel || PRESETS[record.presetIndex]?.label ||
+      `${Math.round(record.workSeconds / 60)} / ${Math.round(record.breakSeconds / 60)}`;
     drawBackground();
     hmUI.createWidget(hmUI.widget.TEXT, textStyle({
       y: px(48), h: px(54), text: "SESSION COMPLETE", size: 29, color: COLORS.success,
@@ -24,7 +25,7 @@ Page({
     }));
     hmUI.createWidget(hmUI.widget.TEXT, textStyle({
       x: SAFE_SIDE, y: px(202), w: WIDTH - SAFE_SIDE * 2, h: px(90),
-      text: `${preset.label} min  ·  ${record.rounds} rounds\nTotal ${formatDuration(record.totalSeconds)}`,
+      text: `${label} min  ·  ${record.rounds} rounds\nTotal ${formatDuration(record.totalSeconds)}`,
       size: 22, color: COLORS.muted,
     }));
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({

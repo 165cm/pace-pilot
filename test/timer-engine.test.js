@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  PRESETS, ROUNDS, normalizePreferences, createSession, getSnapshot,
+  PRESETS, DEFAULT_PRESETS, getPresets, normalizeCustomPreset,
+  ROUNDS, normalizePreferences, createSession, getSnapshot,
   pauseSession, resumeSession, skipPhase, completeSession,
 } from "../core/timer-engine.js";
 import { formatDuration } from "../core/format.js";
@@ -11,10 +12,51 @@ import { groupHistoryByDate } from "../core/history.js";
 const START = Date.UTC(2026, 6, 31, 10, 0, 0);
 const session = () => createSession({ nowMs: START, presetIndex: 1 });
 
-test("v1 exposes exactly three fixed presets and defaults to 15 / 5", () => {
-  assert.deepEqual(PRESETS.map((item) => item.label), ["10 / 5", "15 / 5", "20 / 10"]);
+test("exposes fixed presets including classic 25 / 5 and defaults to 15 / 5", () => {
+  assert.deepEqual(PRESETS.map((item) => item.label), [
+    "10 / 5",
+    "15 / 5",
+    "20 / 10",
+    "25 / 5",
+    "50 / 10",
+  ]);
   assert.equal(normalizePreferences().presetIndex, 1);
   assert.equal(ROUNDS, 3);
+});
+
+test("custom preset normalization and getPresets inclusion", () => {
+  const custom = normalizeCustomPreset({ workMinutes: 40, breakMinutes: 8 });
+  assert.equal(custom.workMinutes, 40);
+  assert.equal(custom.breakMinutes, 8);
+  assert.equal(custom.label, "40 / 8");
+  assert.equal(custom.isCustom, true);
+
+  const presets = getPresets({ customPreset: custom });
+  assert.equal(presets.length, DEFAULT_PRESETS.length + 1);
+  assert.equal(presets[presets.length - 1].label, "40 / 8");
+});
+
+test("createSession supports user custom preset", () => {
+  const customPreset = { workMinutes: 35, breakMinutes: 7 };
+  const customSession = createSession({
+    nowMs: START,
+    presetIndex: 5,
+    customPreset,
+  });
+  assert.equal(customSession.workSeconds, 35 * 60);
+  assert.equal(customSession.breakSeconds, 7 * 60);
+  assert.equal(customSession.plannedSeconds, (35 + 7) * 60 * 3);
+  assert.equal(customSession.presetLabel, "35 / 7");
+
+  const completed = completeSession(customSession, START + customSession.plannedSeconds * 1000);
+  assert.equal(completed.presetLabel, "35 / 7");
+});
+
+test("25 / 5 preset calculates 90 minute total for 3 rounds", () => {
+  const value = createSession({ nowMs: START, presetIndex: 3 });
+  assert.equal(value.workSeconds, 25 * 60);
+  assert.equal(value.breakSeconds, 5 * 60);
+  assert.equal(value.plannedSeconds, 90 * 60);
 });
 
 test("a session starts in WORK round 1 with a 60 minute total", () => {
