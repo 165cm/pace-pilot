@@ -1,4 +1,5 @@
 import hmUI from "@zos/ui";
+import { getText } from "@zos/i18n";
 import { replace } from "@zos/router";
 import { px } from "@zos/utils";
 import { PRESETS } from "../core/timer-engine";
@@ -16,21 +17,22 @@ Page({
     if (!record || record.reason !== "completed") return replace({ url: "page/home" });
     const label = record.presetLabel || PRESETS[record.presetIndex]?.label ||
       `${Math.round(record.workSeconds / 60)} / ${Math.round(record.breakSeconds / 60)}`;
+    const minUnit = getText("min");
     drawBackground();
     hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      y: px(48), h: px(54), text: "SESSION COMPLETE", size: 29, color: COLORS.success,
+      y: px(48), h: px(54), text: getText("sessionComplete"), size: 28, color: COLORS.success,
     }));
     hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      y: px(128), h: px(48), text: "Nice work!", size: 30,
+      y: px(128), h: px(48), text: getText("niceWork"), size: 29,
     }));
     hmUI.createWidget(hmUI.widget.TEXT, textStyle({
       x: SAFE_SIDE, y: px(202), w: WIDTH - SAFE_SIDE * 2, h: px(90),
-      text: `${label} min  ·  ${record.rounds} rounds\nTotal ${formatDuration(record.totalSeconds)}`,
-      size: 22, color: COLORS.muted,
+      text: `${label} ${minUnit}  ·  ${record.rounds} ${getText("rounds")}\n${getText("total")} ${formatDuration(record.totalSeconds)}`,
+      size: 21, color: COLORS.muted,
     }));
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: SAFE_SIDE, y: HEIGHT - px(102), w: WIDTH - SAFE_SIDE * 2, h: px(62),
-      text: "Done", size: 27, normal: COLORS.success,
+      text: getText("done"), size: 27, normal: COLORS.success,
       click: () => replace({ url: "page/home" }),
     }));
   },

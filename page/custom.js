@@ -1,4 +1,5 @@
 import hmUI from "@zos/ui";
+import { getText } from "@zos/i18n";
 import { replace, back } from "@zos/router";
 import { px } from "@zos/utils";
 import {
@@ -38,11 +39,11 @@ Page({
 
   build() {
     drawBackground();
-    createPageTitle("Custom Pace");
+    createPageTitle(getText("customPace"));
 
     this.buildAdjuster({
       y: px(IS_SQUARE ? 80 : 96),
-      label: "Work",
+      label: getText("work"),
       key: "workMinutes",
       step: 5,
       min: 5,
@@ -51,7 +52,7 @@ Page({
 
     this.buildAdjuster({
       y: px(IS_SQUARE ? 186 : 206),
-      label: "Break",
+      label: getText("break"),
       key: "breakMinutes",
       step: 1,
       min: 1,
@@ -66,7 +67,7 @@ Page({
         y: secondaryY - px(58),
         w: WIDTH - px(IS_SQUARE ? 72 : 172),
         h: px(50),
-        text: "Save & Use",
+        text: getText("saveAndUse"),
         normal: COLORS.work,
         pressed: COLORS.workPressed,
         size: 20,
@@ -80,7 +81,7 @@ Page({
         y: secondaryY,
         w: WIDTH - px(IS_SQUARE ? 128 : 224),
         h: px(40),
-        text: "Cancel",
+        text: getText("cancel"),
         size: 18,
         click: () => back(),
       }),
@@ -148,13 +149,14 @@ Page({
   },
 
   refresh() {
+    const minUnit = getText("min");
     this.state.workText?.setProperty(
       hmUI.prop.TEXT,
-      `${this.state.workMinutes} min`,
+      `${this.state.workMinutes} ${minUnit}`,
     );
     this.state.breakText?.setProperty(
       hmUI.prop.TEXT,
-      `${this.state.breakMinutes} min`,
+      `${this.state.breakMinutes} ${minUnit}`,
     );
   },
 
@@ -163,7 +165,7 @@ Page({
       workMinutes: this.state.workMinutes,
       breakMinutes: this.state.breakMinutes,
     });
-    const presetIndex = DEFAULT_PRESETS.length; // カスタムスロット（最後のインデックス）
+    const presetIndex = DEFAULT_PRESETS.length;
     savePreferences({
       ...this.state.preferences,
       presetIndex,

@@ -50,14 +50,36 @@
           "dw": 480
         },
         {
+          "st": "r",
+          "dw": 466
+        },
+        {
+          "st": "r",
+          "dw": 454
+        },
+        {
           "st": "s",
           "dw": 390
+        },
+        {
+          "st": "s",
+          "dw": 336
+        },
+        {
+          "st": "s",
+          "dw": 320
         }
       ]
     }
   },
   "i18n": {
     "ja-JP": {
+      "appName": "PacePilot"
+    },
+    "zh-CN": {
+      "appName": "PacePilot"
+    },
+    "zh-TW": {
       "appName": "PacePilot"
     },
     "en-US": {

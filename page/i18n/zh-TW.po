@@ -1,0 +1,92 @@
+msgid "choosePace"
+msgstr "選擇專注節奏"
+
+msgid "start"
+msgstr "開始"
+
+msgid "custom"
+msgstr "自訂"
+
+msgid "history"
+msgstr "歷史"
+
+msgid "work"
+msgstr "專注"
+
+msgid "break"
+msgstr "休息"
+
+msgid "rounds"
+msgstr "輪次"
+
+msgid "total"
+msgstr "總計"
+
+msgid "min"
+msgstr "分鐘"
+
+msgid "customPace"
+msgstr "自訂節奏"
+
+msgid "saveAndUse"
+msgstr "儲存並使用"
+
+msgid "cancel"
+msgstr "返回"
+
+msgid "paused"
+msgstr "已暫停"
+
+msgid "pause"
+msgstr "暫停"
+
+msgid "resume"
+msgstr "繼續"
+
+msgid "stop"
+msgstr "結束"
+
+msgid "holdToStop"
+msgstr "長按結束"
+
+msgid "holdToStopNotice"
+msgstr "長按按鈕結束專注"
+
+msgid "skipPhase"
+msgstr "跳過階段 ›"
+
+msgid "sessionComplete"
+msgstr "專注完成"
+
+msgid "niceWork"
+msgstr "太棒了！"
+
+msgid "done"
+msgstr "完成"
+
+msgid "noSessionsYet"
+msgstr "暫無記錄"
+
+msgid "completeTimerHint"
+msgstr "完成專注後記錄將在此顯示"
+
+msgid "sessions"
+msgstr "次"
+
+msgid "latest"
+msgstr "最新"
+
+msgid "earlier"
+msgstr "歷史記錄"
+
+msgid "back"
+msgstr "返回"
+
+msgid "allowAlerts"
+msgstr "請允許計時器通知"
+
+msgid "alertFailed"
+msgstr "無法設定提醒"
+
+msgid "open"
+msgstr "開啟"

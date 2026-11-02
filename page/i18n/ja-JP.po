@@ -1,0 +1,92 @@
+msgid "choosePace"
+msgstr "ペースを選択"
+
+msgid "start"
+msgstr "開始"
+
+msgid "custom"
+msgstr "カスタム"
+
+msgid "history"
+msgstr "履歴"
+
+msgid "work"
+msgstr "作業"
+
+msgid "break"
+msgstr "休憩"
+
+msgid "rounds"
+msgstr "ラウンド"
+
+msgid "total"
+msgstr "合計"
+
+msgid "min"
+msgstr "分"
+
+msgid "customPace"
+msgstr "カスタム設定"
+
+msgid "saveAndUse"
+msgstr "保存して開始"
+
+msgid "cancel"
+msgstr "戻る"
+
+msgid "paused"
+msgstr "一時停止中"
+
+msgid "pause"
+msgstr "一時停止"
+
+msgid "resume"
+msgstr "再開"
+
+msgid "stop"
+msgstr "終了"
+
+msgid "holdToStop"
+msgstr "長押し終了"
+
+msgid "holdToStopNotice"
+msgstr "長押しで終了します"
+
+msgid "skipPhase"
+msgstr "スキップ ›"
+
+msgid "sessionComplete"
+msgstr "セッション完了"
+
+msgid "niceWork"
+msgstr "お疲れ様でした！"
+
+msgid "done"
+msgstr "完了"
+
+msgid "noSessionsYet"
+msgstr "まだ履歴がありません"
+
+msgid "completeTimerHint"
+msgstr "タイマーを完了すると表示されます"
+
+msgid "sessions"
+msgstr "回"
+
+msgid "latest"
+msgstr "最新"
+
+msgid "earlier"
+msgstr "過去の記録"
+
+msgid "back"
+msgstr "戻る"
+
+msgid "allowAlerts"
+msgstr "通知を許可してください"
+
+msgid "alertFailed"
+msgstr "アラームを設定できませんでした"
+
+msgid "open"
+msgstr "開く"
