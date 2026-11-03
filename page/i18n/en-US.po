@@ -1,3 +1,12 @@
+msgid "timelineStart"
+msgstr "Start"
+
+msgid "timelineNow"
+msgstr "Now"
+
+msgid "timelineEnd"
+msgstr "End"
+
 msgid "choosePace"
 msgstr "Choose your pace"
 

@@ -55,7 +55,11 @@ Page({
   buildTimeline() {
     const gap = px(6);
     const columnWidth = Math.floor((WIDTH - SAFE_SIDE * 2 - gap * 2) / 3);
-    const labels = [getText("start"), "Now", getText("stop")];
+    const labels = [
+      getText("timelineStart"),
+      getText("timelineNow"),
+      getText("timelineEnd"),
+    ];
     const keys = ["startTimeText", "currentTimeText", "endTimeText"];
     labels.forEach((label, index) => {
       const x = SAFE_SIDE + index * (columnWidth + gap);
@@ -91,9 +95,9 @@ Page({
   },
 
   buildRoundTimer() {
-    const arcSize = px(IS_SQUARE ? 246 : 280);
+    const arcSize = px(IS_SQUARE ? 246 : 250);
     const arcX = Math.round((WIDTH - arcSize) / 2);
-    const arcY = px(IS_SQUARE ? 88 : 100);
+    const arcY = px(IS_SQUARE ? 88 : 94);
     hmUI.createWidget(hmUI.widget.ARC, {
       x: arcX, y: arcY, w: arcSize, h: arcSize,
       start_angle: ARC_START, end_angle: ARC_START + ARC_SWEEP,
@@ -109,19 +113,21 @@ Page({
       text: "", size: 20, color: COLORS.muted,
     }));
     this.state.countdownText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      x: arcX + px(12), y: arcY + px(76), w: arcSize - px(24), h: px(78),
+      x: arcX + px(12), y: arcY + px(74), w: arcSize - px(24), h: px(78),
       text: "", size: IS_SQUARE ? 68 : 72,
     }));
     this.state.elapsedText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      x: arcX + px(20), y: arcY + px(155), w: arcSize - px(40), h: px(38),
+      x: arcX + px(20), y: arcY + px(152), w: arcSize - px(40), h: px(38),
       text: "", size: 21, color: COLORS.muted,
     }));
 
+    const controlsY = HEIGHT - SAFE_BOTTOM - px(54);
     const skipW = px(136);
-    const skipY = arcY + arcSize - px(IS_SQUARE ? 5 : 8);
+    const skipH = px(30);
+    const skipY = controlsY - skipH - px(IS_SQUARE ? 8 : 12);
     this.state.skipButton = hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: Math.round((WIDTH - skipW) / 2), y: skipY,
-      w: skipW, h: px(30), text: getText("skipPhase"), size: 14,
+      w: skipW, h: skipH, text: getText("skipPhase"), size: 14,
       normal: COLORS.background, pressed: COLORS.panel,
       color: COLORS.muted, click: () => this.skip(),
     }));

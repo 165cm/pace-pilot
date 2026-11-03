@@ -1,3 +1,12 @@
+msgid "timelineStart"
+msgstr "开始"
+
+msgid "timelineNow"
+msgstr "当前"
+
+msgid "timelineEnd"
+msgstr "预计结束"
+
 msgid "choosePace"
 msgstr "选择专注节奏"
 

@@ -34,7 +34,7 @@ PacePilotは、定番の固定プリセット（`25 / 5` や `15 / 5`）また�
 Zepp OS 3.0以上を搭載した各種 Amazfit スマートウォッチ（角型・丸型）：
 - Amazfit Bip 6, Amazfit Active / Active 2 (Square & Round)
 - Amazfit Balance, Amazfit Cheetah / Cheetah Pro
-- Amazfit GTR 4, GTR Mini, GTS 4 Mini, Bip 5, T-Rex 3 など
+- Amazfit GTR 4, GTR Mini, T-Rex 3 など
 
 ---
 
