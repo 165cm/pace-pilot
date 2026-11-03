@@ -1,4 +1,5 @@
 import hmUI from "@zos/ui";
+import { getText } from "@zos/i18n";
 import { px } from "@zos/utils";
 import { formatDuration } from "../core/format";
 import { historyStartTime } from "../core/history";
@@ -8,12 +9,13 @@ import { WIDTH, COLORS, textStyle, SAFE_SIDE } from "./common";
 export const HISTORY_CARD_HEIGHT = px(106);
 
 function recordPreset(record) {
-  if (record.presetLabel) return `${record.presetLabel} min`;
+  const minUnit = getText("min");
+  if (record.presetLabel) return `${record.presetLabel} ${minUnit}`;
   const preset = PRESETS[record.presetIndex];
-  if (preset) return `${preset.label} min`;
+  if (preset) return `${preset.label} ${minUnit}`;
   const work = Math.round((record.workSeconds || 0) / 60);
   const rest = Math.round((record.breakSeconds || record.chaseSeconds || 0) / 60);
-  return `${work} / ${rest} min`;
+  return `${work} / ${rest} ${minUnit}`;
 }
 
 export function createHistoryCard(container, record, y) {
@@ -43,13 +45,13 @@ export function createHistoryCard(container, record, y) {
   });
   container.createWidget(hmUI.widget.TEXT, textStyle({
     x: innerX, y: y + px(48), w: Math.floor(innerW * 0.58), h: px(34),
-    text: `${formatDuration(duration)} · ${rounds} rounds`,
+    text: `${formatDuration(duration)} · ${rounds} ${getText("rounds")}`,
     size: 17, color: COLORS.muted, align: hmUI.align.LEFT,
   }));
   container.createWidget(hmUI.widget.TEXT, textStyle({
     x: innerX + Math.floor(innerW * 0.58), y: y + px(48),
     w: Math.ceil(innerW * 0.42), h: px(34),
-    text: completed ? "Complete" : "Ended",
+    text: completed ? getText("done") : getText("stop"),
     size: 16, color: completed ? COLORS.success : COLORS.danger,
     align: hmUI.align.RIGHT,
   }));

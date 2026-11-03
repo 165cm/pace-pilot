@@ -2,7 +2,7 @@
 
 PacePilot does not collect, transmit, sell, or share personal information.
 
-The app stores timer preferences, user-entered task preset titles, active timer state, and up to 30 completed-session records locally on the user's watch. This data is used only to restore timers and display session history. It is not sent to the developer or to any third party.
+The app stores timer preferences (including custom interval settings), active timer state, and up to 30 completed-session records locally on the user's watch. This data is used only to restore timers and display session history. It is not sent to the developer or to any third party.
 
 The app uses the Alarm permission to move between timer phases while the screen is off or the app is closed. It uses the Notification permission to alert the user at phase boundaries. It uses Local Storage to save timer preferences and session history.
 

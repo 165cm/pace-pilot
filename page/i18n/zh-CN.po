@@ -1,0 +1,101 @@
+msgid "timelineStart"
+msgstr "开始"
+
+msgid "timelineNow"
+msgstr "当前"
+
+msgid "timelineEnd"
+msgstr "预计结束"
+
+msgid "choosePace"
+msgstr "选择专注节奏"
+
+msgid "start"
+msgstr "开始"
+
+msgid "custom"
+msgstr "自定义"
+
+msgid "history"
+msgstr "历史"
+
+msgid "work"
+msgstr "专注"
+
+msgid "break"
+msgstr "休息"
+
+msgid "rounds"
+msgstr "轮次"
+
+msgid "total"
+msgstr "总计"
+
+msgid "min"
+msgstr "分钟"
+
+msgid "customPace"
+msgstr "自定义节奏"
+
+msgid "saveAndUse"
+msgstr "保存并使用"
+
+msgid "cancel"
+msgstr "返回"
+
+msgid "paused"
+msgstr "已暂停"
+
+msgid "pause"
+msgstr "暂停"
+
+msgid "resume"
+msgstr "继续"
+
+msgid "stop"
+msgstr "结束"
+
+msgid "holdToStop"
+msgstr "长按结束"
+
+msgid "holdToStopNotice"
+msgstr "长按按钮结束专注"
+
+msgid "skipPhase"
+msgstr "跳过阶段 ›"
+
+msgid "sessionComplete"
+msgstr "专注完成"
+
+msgid "niceWork"
+msgstr "太棒了！"
+
+msgid "done"
+msgstr "完成"
+
+msgid "noSessionsYet"
+msgstr "暂无记录"
+
+msgid "completeTimerHint"
+msgstr "完成专注后记录将在此显示"
+
+msgid "sessions"
+msgstr "次"
+
+msgid "latest"
+msgstr "最新"
+
+msgid "earlier"
+msgstr "历史记录"
+
+msgid "back"
+msgstr "返回"
+
+msgid "allowAlerts"
+msgstr "请允许计时器通知"
+
+msgid "alertFailed"
+msgstr "无法设置提醒"
+
+msgid "open"
+msgstr "打开"

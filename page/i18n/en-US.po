@@ -1,0 +1,101 @@
+msgid "timelineStart"
+msgstr "Start"
+
+msgid "timelineNow"
+msgstr "Now"
+
+msgid "timelineEnd"
+msgstr "End"
+
+msgid "choosePace"
+msgstr "Choose your pace"
+
+msgid "start"
+msgstr "Start"
+
+msgid "custom"
+msgstr "Custom"
+
+msgid "history"
+msgstr "History"
+
+msgid "work"
+msgstr "Work"
+
+msgid "break"
+msgstr "Break"
+
+msgid "rounds"
+msgstr "Rounds"
+
+msgid "total"
+msgstr "Total"
+
+msgid "min"
+msgstr "min"
+
+msgid "customPace"
+msgstr "Custom Pace"
+
+msgid "saveAndUse"
+msgstr "Save & Use"
+
+msgid "cancel"
+msgstr "Cancel"
+
+msgid "paused"
+msgstr "Paused"
+
+msgid "pause"
+msgstr "Pause"
+
+msgid "resume"
+msgstr "Resume"
+
+msgid "stop"
+msgstr "Stop"
+
+msgid "holdToStop"
+msgstr "Hold Stop"
+
+msgid "holdToStopNotice"
+msgstr "Hold Stop button to exit"
+
+msgid "skipPhase"
+msgstr "Skip phase ›"
+
+msgid "sessionComplete"
+msgstr "SESSION COMPLETE"
+
+msgid "niceWork"
+msgstr "Nice work!"
+
+msgid "done"
+msgstr "Done"
+
+msgid "noSessionsYet"
+msgstr "No sessions yet"
+
+msgid "completeTimerHint"
+msgstr "Complete a timer to see it here."
+
+msgid "sessions"
+msgstr "sessions"
+
+msgid "latest"
+msgstr "Latest"
+
+msgid "earlier"
+msgstr "Earlier"
+
+msgid "back"
+msgstr "Back"
+
+msgid "allowAlerts"
+msgstr "Allow timer notifications"
+
+msgid "alertFailed"
+msgstr "Could not set timer alerts"
+
+msgid "open"
+msgstr "Open"

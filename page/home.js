@@ -1,4 +1,5 @@
 import hmUI from "@zos/ui";
+import { getText } from "@zos/i18n";
 import { Time, Vibrator, VIBRATOR_SCENE_SHORT_MIDDLE } from "@zos/sensor";
 import { replace, push } from "@zos/router";
 import { px } from "@zos/utils";
@@ -24,7 +25,7 @@ Page({
       y: px(22), h: px(38), text: "PACE PILOT", size: 25, color: COLORS.muted,
     }));
     hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      y: px(66), h: px(34), text: "Choose your pace", size: 20,
+      y: px(66), h: px(34), text: getText("choosePace"), size: 19,
     }));
 
     const y = px(116);
@@ -43,7 +44,7 @@ Page({
 
     this.state.summaryText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
       x: SAFE_SIDE, y: px(196), w: WIDTH - SAFE_SIDE * 2, h: px(94), text: "",
-      size: 21, color: COLORS.muted,
+      size: 20, color: COLORS.muted,
     }));
 
     const actionGap = px(10);
@@ -51,19 +52,19 @@ Page({
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: SAFE_SIDE, y: px(294),
       w: actionWidth, h: px(42),
-      text: "Custom  ›", size: 17,
+      text: `${getText("custom")} ›`, size: 16,
       click: () => push({ url: "page/custom" }),
     }));
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: SAFE_SIDE + actionWidth + actionGap, y: px(294),
       w: actionWidth, h: px(42),
-      text: "History  ›", size: 17,
+      text: `${getText("history")} ›`, size: 16,
       click: () => push({ url: "page/history" }),
     }));
 
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: SAFE_SIDE, y: HEIGHT - px(98), w: WIDTH - SAFE_SIDE * 2, h: px(64),
-      text: "Start", size: 29, normal: COLORS.work, pressed: COLORS.workPressed,
+      text: getText("start"), size: 28, normal: COLORS.work, pressed: COLORS.workPressed,
       click: () => this.start(),
     }));
     this.refresh();
@@ -84,11 +85,12 @@ Page({
     const preset = presets[prefs.presetIndex] || presets[1];
     const total = (preset.workMinutes + preset.breakMinutes) * ROUNDS;
     const label = preset.isCustom ? `★ ${preset.label}` : preset.label;
+    const minUnit = getText("min");
     this.state.presetText?.setProperty(hmUI.prop.TEXT, label);
     this.state.summaryText?.setProperty(
       hmUI.prop.TEXT,
-      `Work  ${preset.workMinutes} min     Break  ${preset.breakMinutes} min\n` +
-      `Rounds  ${ROUNDS}             Total  ${total} min`,
+      `${getText("work")} ${preset.workMinutes} ${minUnit}     ${getText("break")} ${preset.breakMinutes} ${minUnit}\n` +
+      `${getText("rounds")} ${ROUNDS}             ${getText("total")} ${total} ${minUnit}`,
     );
   },
 

@@ -1,4 +1,6 @@
 import hmUI from "@zos/ui";
+import { getText } from "@zos/i18n";
+import { showToast } from "@zos/interaction";
 import { Time, Vibrator, VIBRATOR_SCENE_SHORT_MIDDLE } from "@zos/sensor";
 import { replace } from "@zos/router";
 import { setWakeUpRelaunch } from "@zos/display";
@@ -53,7 +55,11 @@ Page({
   buildTimeline() {
     const gap = px(6);
     const columnWidth = Math.floor((WIDTH - SAFE_SIDE * 2 - gap * 2) / 3);
-    const labels = ["Start", "Now", "End"];
+    const labels = [
+      getText("timelineStart"),
+      getText("timelineNow"),
+      getText("timelineEnd"),
+    ];
     const keys = ["startTimeText", "currentTimeText", "endTimeText"];
     labels.forEach((label, index) => {
       const x = SAFE_SIDE + index * (columnWidth + gap);
@@ -89,9 +95,9 @@ Page({
   },
 
   buildRoundTimer() {
-    const arcSize = px(IS_SQUARE ? 246 : 280);
+    const arcSize = px(IS_SQUARE ? 246 : 250);
     const arcX = Math.round((WIDTH - arcSize) / 2);
-    const arcY = px(IS_SQUARE ? 88 : 100);
+    const arcY = px(IS_SQUARE ? 88 : 94);
     hmUI.createWidget(hmUI.widget.ARC, {
       x: arcX, y: arcY, w: arcSize, h: arcSize,
       start_angle: ARC_START, end_angle: ARC_START + ARC_SWEEP,
@@ -107,16 +113,21 @@ Page({
       text: "", size: 20, color: COLORS.muted,
     }));
     this.state.countdownText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      x: arcX + px(12), y: arcY + px(76), w: arcSize - px(24), h: px(78),
+      x: arcX + px(12), y: arcY + px(74), w: arcSize - px(24), h: px(78),
       text: "", size: IS_SQUARE ? 68 : 72,
     }));
     this.state.elapsedText = hmUI.createWidget(hmUI.widget.TEXT, textStyle({
-      x: arcX + px(20), y: arcY + px(155), w: arcSize - px(40), h: px(38),
+      x: arcX + px(20), y: arcY + px(152), w: arcSize - px(40), h: px(38),
       text: "", size: 21, color: COLORS.muted,
     }));
+
+    const controlsY = HEIGHT - SAFE_BOTTOM - px(54);
+    const skipW = px(136);
+    const skipH = px(30);
+    const skipY = controlsY - skipH - px(IS_SQUARE ? 8 : 12);
     this.state.skipButton = hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
-      x: Math.round((WIDTH - px(126)) / 2), y: px(329),
-      w: px(126), h: px(30), text: "Skip phase ›", size: 14,
+      x: Math.round((WIDTH - skipW) / 2), y: skipY,
+      w: skipW, h: skipH, text: getText("skipPhase"), size: 14,
       normal: COLORS.background, pressed: COLORS.panel,
       color: COLORS.muted, click: () => this.skip(),
     }));
@@ -127,13 +138,14 @@ Page({
     const controls = twoButtonLayout({ width: WIDTH, margin: SAFE_SIDE, gap: px(10) });
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: controls.left.x, y, w: controls.left.w, h: px(54),
-      text: "■ Stop", size: 20,
+      text: `■ ${getText("stop")}`, size: 19,
       normal: COLORS.danger, pressed: COLORS.dangerPressed,
-      click: () => this.end(),
+      click: () => showToast({ content: getText("holdToStopNotice") }),
+      longpress: () => this.end(),
     }));
     this.state.pauseButton = hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
       x: controls.right.x, y, w: controls.right.w, h: px(54),
-      text: "Ⅱ Pause", size: 19,
+      text: `Ⅱ ${getText("pause")}`, size: 19,
       normal: COLORS.primaryAction, pressed: COLORS.panelPressed,
       click: () => this.togglePause(),
     }));
@@ -147,9 +159,10 @@ Page({
     if (snapshot.isCompleted) return this.complete(nowMs);
 
     const accent = snapshot.phase === "work" ? COLORS.work : COLORS.chase;
+    const phaseName = snapshot.phase === "work" ? getText("work") : getText("break");
     const phaseLabel = snapshot.isPaused
-      ? `Paused · R${snapshot.currentRound}`
-      : `${snapshot.phaseLabel} · R${snapshot.currentRound}`;
+      ? `${getText("paused")} · R${snapshot.currentRound}`
+      : `${phaseName} · R${snapshot.currentRound}`;
     this.state.startTimeText.setProperty(
       hmUI.prop.TEXT, formatClockFromDate(new Date(this.state.session.startedAt)),
     );
@@ -161,12 +174,12 @@ Page({
     );
     this.state.phaseText.setProperty(hmUI.prop.TEXT, phaseLabel);
     this.state.countdownText.setProperty(hmUI.prop.TEXT, formatDuration(snapshot.phaseRemainingSeconds));
-    this.state.elapsedText.setProperty(hmUI.prop.TEXT, `Total ${formatDuration(snapshot.elapsedSeconds)}`);
+    this.state.elapsedText.setProperty(hmUI.prop.TEXT, `${getText("total")} ${formatDuration(snapshot.elapsedSeconds)}`);
     this.state.pauseButton.setProperty(
-      hmUI.prop.TEXT, snapshot.isPaused ? "▶ Resume" : "Ⅱ Pause",
+      hmUI.prop.TEXT, snapshot.isPaused ? `▶ ${getText("resume")}` : `Ⅱ ${getText("pause")}`,
     );
     this.state.skipButton.setProperty(
-      hmUI.prop.TEXT, snapshot.isPaused ? "Paused" : "Skip phase ›",
+      hmUI.prop.TEXT, snapshot.isPaused ? getText("paused") : getText("skipPhase"),
     );
 
     const endAngle = ARC_START + Math.max(1, Math.round(snapshot.phaseProgress * ARC_SWEEP));

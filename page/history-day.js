@@ -1,4 +1,5 @@
 import hmUI from "@zos/ui";
+import { getText } from "@zos/i18n";
 import { back } from "@zos/router";
 import { px } from "@zos/utils";
 import { groupHistoryByDate } from "../core/history";
@@ -41,7 +42,7 @@ Page({
         y,
         w: WIDTH - SAFE_SIDE * 2,
         h: px(42),
-        text: this.state.group?.label ?? "History",
+        text: this.state.group?.label ?? getText("history"),
         size: 27,
         align: hmUI.align.LEFT,
       }),
@@ -60,7 +61,7 @@ Page({
         y,
         w: WIDTH - SAFE_SIDE * 2 - px(64),
         h: px(48),
-        text: "Back",
+        text: getText("back"),
         size: 21,
         click: () => back(),
       }),

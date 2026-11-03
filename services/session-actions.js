@@ -1,4 +1,5 @@
 import { queryPermission, requestPermission } from "@zos/app";
+import { getText } from "@zos/i18n";
 import { showToast } from "@zos/interaction";
 import {
   createSession, completeSession, pauseSession, resumeSession, skipPhase,
@@ -19,7 +20,7 @@ export function ensureTimerPermissions(onGranted) {
     permissions: REQUIRED_PERMISSIONS,
     callback(results) {
       if (results.every((status) => status === 2)) onGranted();
-      else showToast({ content: "Allow timer notifications" });
+      else showToast({ content: getText("allowAlerts") });
     },
   });
 }
@@ -28,7 +29,7 @@ function reschedule(session, nowMs) {
   cancelAlarmEntries(session.alarmEntries);
   const scheduled = scheduleRemainingAlarms(session, nowMs);
   if (!scheduled.ok) {
-    showToast({ content: "Could not set timer alerts" });
+    showToast({ content: getText("alertFailed") });
     return null;
   }
   const active = { ...session, alarmEntries: scheduled.entries };
@@ -40,7 +41,7 @@ export function startNewSession({ nowMs, presetIndex, customPreset }) {
   const session = createSession({ nowMs, presetIndex, customPreset });
   const scheduled = scheduleInitialAlarms(session);
   if (!scheduled.ok) {
-    showToast({ content: "Could not set timer alerts" });
+    showToast({ content: getText("alertFailed") });
     return null;
   }
   const active = { ...session, alarmEntries: scheduled.entries };
