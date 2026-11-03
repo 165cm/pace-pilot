@@ -25,15 +25,29 @@ test("exposes fixed presets including classic 25 / 5 and defaults to 15 / 5", ()
 });
 
 test("custom preset normalization and getPresets inclusion", () => {
-  const custom = normalizeCustomPreset({ workMinutes: 40, breakMinutes: 8 });
+  const custom = normalizeCustomPreset({ workMinutes: 40, breakMinutes: 8, rounds: 5 });
   assert.equal(custom.workMinutes, 40);
   assert.equal(custom.breakMinutes, 8);
+  assert.equal(custom.rounds, 5);
   assert.equal(custom.label, "40 / 8");
   assert.equal(custom.isCustom, true);
 
   const presets = getPresets({ customPreset: custom });
   assert.equal(presets.length, DEFAULT_PRESETS.length + 1);
   assert.equal(presets[presets.length - 1].label, "40 / 8");
+});
+
+test("custom preset supports configurable rounds", () => {
+  const custom = normalizeCustomPreset({ workMinutes: 25, breakMinutes: 5, rounds: 4 });
+  assert.equal(custom.rounds, 4);
+
+  const customSession = createSession({
+    nowMs: START,
+    presetIndex: 5,
+    customPreset: custom,
+  });
+  assert.equal(customSession.rounds, 4);
+  assert.equal(customSession.plannedSeconds, (25 + 5) * 60 * 4);
 });
 
 test("createSession supports user custom preset", () => {

@@ -76,12 +76,13 @@ Page({
       );
     });
 
+    const rounds = this.state.session.rounds || 3;
     const barY = SAFE_TOP + px(57);
-    const gapWidth = px(4);
-    const segmentWidth = Math.floor(
-      (WIDTH - SAFE_SIDE * 2 - gapWidth * 2) / 3,
-    );
-    this.state.roundSegments = Array.from({ length: 3 }, (_, index) => {
+    const gapWidth = rounds > 6 ? px(2) : px(4);
+    const totalWidth = WIDTH - SAFE_SIDE * 2;
+    const totalGaps = (rounds - 1) * gapWidth;
+    const segmentWidth = Math.max(px(2), Math.floor((totalWidth - totalGaps) / rounds));
+    this.state.roundSegments = Array.from({ length: rounds }, (_, index) => {
       const x = SAFE_SIDE + index * (segmentWidth + gapWidth);
       hmUI.createWidget(hmUI.widget.FILL_RECT, {
         x, y: barY, w: segmentWidth, h: px(8),
@@ -200,8 +201,11 @@ Page({
   },
 
   updateRoundSegments(snapshot, accent) {
-    const gap = px(4);
-    const segmentWidth = Math.floor((WIDTH - SAFE_SIDE * 2 - gap * 2) / 3);
+    const rounds = this.state.session.rounds || 3;
+    const gap = rounds > 6 ? px(2) : px(4);
+    const totalWidth = WIDTH - SAFE_SIDE * 2;
+    const totalGaps = (rounds - 1) * gap;
+    const segmentWidth = Math.max(px(2), Math.floor((totalWidth - totalGaps) / rounds));
     const roundSeconds = this.state.session.workSeconds + this.state.session.breakSeconds;
     this.state.roundSegments.forEach((segment, index) => {
       const progress = Math.max(0, Math.min(
