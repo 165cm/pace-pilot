@@ -83,14 +83,15 @@ Page({
     const prefs = normalizePreferences(this.state.preferences);
     const presets = getPresets(prefs);
     const preset = presets[prefs.presetIndex] || presets[1];
-    const total = (preset.workMinutes + preset.breakMinutes) * ROUNDS;
+    const rounds = preset.rounds || ROUNDS;
+    const total = (preset.workMinutes + preset.breakMinutes) * rounds;
     const label = preset.isCustom ? `★ ${preset.label}` : preset.label;
     const minUnit = getText("min");
     this.state.presetText?.setProperty(hmUI.prop.TEXT, label);
     this.state.summaryText?.setProperty(
       hmUI.prop.TEXT,
       `${getText("work")} ${preset.workMinutes} ${minUnit}     ${getText("break")} ${preset.breakMinutes} ${minUnit}\n` +
-      `${getText("rounds")} ${ROUNDS}             ${getText("total")} ${total} ${minUnit}`,
+      `${getText("rounds")} ${rounds}             ${getText("total")} ${total} ${minUnit}`,
     );
   },
 

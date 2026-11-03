@@ -11,6 +11,7 @@ export const DEFAULT_PRESETS = Object.freeze([
 export const DEFAULT_CUSTOM_PRESET = Object.freeze({
   workMinutes: 30,
   breakMinutes: 10,
+  rounds: 3,
   label: "30 / 10",
   isCustom: true,
 });
@@ -37,9 +38,15 @@ export function normalizeCustomPreset(value) {
     1,
     60,
   );
+  const rounds = clamp(
+    Number.isInteger(value?.rounds) ? value.rounds : DEFAULT_CUSTOM_PRESET.rounds,
+    1,
+    12,
+  );
   return {
     workMinutes,
     breakMinutes,
+    rounds,
     label: `${workMinutes} / ${breakMinutes}`,
     isCustom: true,
   };
@@ -67,9 +74,10 @@ export function createSession({ nowMs, presetIndex = 1, customPreset }) {
   const prefs = normalizePreferences({ presetIndex, customPreset });
   const presets = getPresets(prefs);
   const preset = presets[prefs.presetIndex] || presets[1];
+  const rounds = preset.rounds || ROUNDS;
   const workSeconds = preset.workMinutes * 60;
   const breakSeconds = preset.breakMinutes * 60;
-  const plannedSeconds = (workSeconds + breakSeconds) * ROUNDS;
+  const plannedSeconds = (workSeconds + breakSeconds) * rounds;
   return {
     id: `${Math.floor(nowMs)}-${prefs.presetIndex}`,
     presetIndex: prefs.presetIndex,
@@ -77,7 +85,7 @@ export function createSession({ nowMs, presetIndex = 1, customPreset }) {
     startedAt: Math.floor(nowMs),
     workSeconds,
     breakSeconds,
-    rounds: ROUNDS,
+    rounds,
     plannedSeconds,
     skippedSeconds: 0,
     totalPausedMs: 0,

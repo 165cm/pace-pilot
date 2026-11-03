@@ -15,7 +15,7 @@ PacePilotは、定番の固定プリセット（`25 / 5` や `15 / 5`）また�
 
 ### 主な特徴
 
-- **定番プリセット ＋ カスタム**: `10/5`, `15/5`, `20/10`, `25/5`, `50/10` に加え、Work（5〜90分）・Break（1〜30分）を自由に設定して保存可能
+- **定番プリセット ＋ カスタム**: `10/5`, `15/5`, `20/10`, `25/5`, `50/10` に加え、Work（5〜90分）・Break（1〜30分）・ラウンド数（1〜12回）を自由に設定して保存可能
 - **終了予定時刻と進捗の常時表示**: 開始時刻・現在時刻・終了予定時刻が一目で把握可能
 - **バックグラウンド動作**: 画面消灯中やアプリ終了後でもOSアラームと振動で正確に切り替え通知
 - **多言語対応**: 日本語、英語、簡体字中国語、繁体字中国語に対応
@@ -24,7 +24,7 @@ PacePilotは、定番の固定プリセット（`25 / 5` や `15 / 5`）また�
 ### 使い方
 
 1. `10 / 5`、`15 / 5`、`20 / 10`、`25 / 5`、`50 / 10`、またはオリジナルの「Custom」からプリセットを選びます。
-   - `Custom ›` ボタンから作業時間（Work）と休憩時間（Break）を自由に設定して保存できます。
+   - `Custom ›` ボタンから作業時間（Work）・休憩時間（Break）・ラウンド数（Rounds）を自由に設定して保存できます。
 2. `Start` を押すと、作業と休憩が自動で切り替わります。
 3. 一時停止・再開・スキップが可能。終了時は誤操作防止のため `■ Stop` を**長押し**します。
 4. 全ラウンド終了後、自動で完了画面を表示し履歴に記録されます。
@@ -48,7 +48,7 @@ It keeps your workflow on track with automatic work/break transitions, visual 3-
 
 ### Features
 
-- **Classic & Custom Presets**: Choose from `10/5`, `15/5`, `20/10`, `25/5` (Pomodoro standard), `50/10`, or create your own custom interval (Work 5–90 min, Break 1–30 min).
+- **Classic & Custom Presets**: Choose from `10/5`, `15/5`, `20/10`, `25/5` (Pomodoro standard), `50/10`, or create your own custom interval (Work 5–90 min, Break 1–30 min, Rounds 1–12).
 - **Timeline Glance**: Displays Start time, Current time, and estimated End time at the top of the watch face.
 - **Reliable Background Execution**: Leverages Zepp OS alarms to notify you with vibrations even when the screen is asleep.
 - **Accidental Tap Protection**: Hold the Stop button to end your session so your progress is never lost by accident.
@@ -58,7 +58,7 @@ It keeps your workflow on track with automatic work/break transitions, visual 3-
 ### How to Use
 
 1. Choose a preset (`10 / 5`, `15 / 5`, `20 / 10`, `25 / 5`, `50 / 10`, or `Custom`).
-   - Tap `Custom ›` to set your own work and break duration.
+   - Tap `Custom ›` to set your own work duration, break duration, and rounds.
 2. Tap `Start` to begin.
 3. Pause, resume, or skip phases anytime. To stop, **long-press** the `■ Stop` button.
 4. When finished, a completion screen appears and the session is saved to your local History.
