@@ -6,8 +6,8 @@ import { px } from "@zos/utils";
 export const { width: WIDTH, height: HEIGHT, screenShape } = getDeviceInfo();
 export const IS_SQUARE = screenShape === SCREEN_SHAPE_SQUARE;
 export const SAFE_SIDE = px(IS_SQUARE ? 24 : 76);
-export const SAFE_TOP = px(IS_SQUARE ? 16 : 30);
-export const SAFE_BOTTOM = px(IS_SQUARE ? 28 : 30);
+export const SAFE_TOP = px(IS_SQUARE ? 16 : 42);
+export const SAFE_BOTTOM = px(IS_SQUARE ? 28 : 38);
 
 export const COLORS = Object.freeze({
   background: 0x05070a,

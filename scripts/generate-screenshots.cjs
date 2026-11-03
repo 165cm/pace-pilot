@@ -155,8 +155,8 @@ function renderTimerSvg(raw) {
   );
 
   const cx = 180;
-  const cy = 154;
-  const r = 76;
+  const cy = 158;
+  const r = 70;
   const strokeW = 8;
   const circumference = 2 * Math.PI * r;
   const offset = circumference * (1 - 0.65);
@@ -182,19 +182,19 @@ function renderTimerSvg(raw) {
     <!-- Watch Background -->
     <rect width="360" height="360" fill="#05070a" />
 
-    <!-- Top Timeline -->
+    <!-- Top Timeline: Centered & safe inside circular screen -->
     <g class="txt" text-anchor="middle">
       <!-- Start -->
-      <text x="80" y="32" font-size="10" fill="#667085">${data.tlStartLabel}</text>
-      <text x="80" y="47" font-size="12" class="bold" fill="#98a2b3">${data.tlStartTime}</text>
+      <text x="106" y="36" font-size="10" fill="#667085">${data.tlStartLabel}</text>
+      <text x="106" y="52" font-size="12" class="bold" fill="#98a2b3">${data.tlStartTime}</text>
 
       <!-- Now -->
-      <text x="180" y="28" font-size="10" fill="#98a2b3">${data.tlNowLabel}</text>
-      <text x="180" y="45" font-size="14" class="bolder" fill="#ffffff">${data.tlNowTime}</text>
+      <text x="180" y="32" font-size="10" fill="#98a2b3">${data.tlNowLabel}</text>
+      <text x="180" y="50" font-size="14" class="bolder" fill="#ffffff">${data.tlNowTime}</text>
 
       <!-- End -->
-      <text x="280" y="32" font-size="10" fill="#667085">${data.tlEndLabel}</text>
-      <text x="280" y="47" font-size="12" class="bold" fill="#98a2b3">${data.tlEndTime}</text>
+      <text x="254" y="36" font-size="10" fill="#667085">${data.tlEndLabel}</text>
+      <text x="254" y="52" font-size="12" class="bold" fill="#98a2b3">${data.tlEndTime}</text>
     </g>
 
     <!-- Progress Ring -->
@@ -207,27 +207,27 @@ function renderTimerSvg(raw) {
     <!-- Ring Center Content -->
     <g class="txt" text-anchor="middle">
       <!-- Phase Badge -->
-      <rect x="126" y="102" width="108" height="20" rx="10" fill="#152438" />
-      <text x="180" y="116" font-size="11" class="bold" fill="#4fa0ff" letter-spacing="0.5">${data.phaseBadge}</text>
+      <rect x="126" y="106" width="108" height="20" rx="10" fill="#152438" />
+      <text x="180" y="120" font-size="11" class="bold" fill="#4fa0ff" letter-spacing="0.5">${data.phaseBadge}</text>
 
       <!-- Main Countdown -->
-      <text x="180" y="166" font-size="38" class="bolder" fill="#ffffff" letter-spacing="-1">${data.timeMain}</text>
+      <text x="180" y="168" font-size="36" class="bolder" fill="#ffffff" letter-spacing="-1">${data.timeMain}</text>
 
       <!-- Total Time -->
-      <text x="180" y="191" font-size="12" class="medium" fill="#98a2b3">${data.totalLabel}</text>
+      <text x="180" y="192" font-size="12" class="medium" fill="#98a2b3">${data.totalLabel}</text>
     </g>
 
     <!-- Skip Phase Link -->
-    <text x="180" y="248" class="txt bold" text-anchor="middle" font-size="13" fill="#7d899b">${data.skipText}</text>
+    <text x="180" y="250" class="txt bold" text-anchor="middle" font-size="13" fill="#7d899b">${data.skipText}</text>
 
-    <!-- Bottom Controls -->
+    <!-- Bottom Controls (compact to fit round bottom curve) -->
     <!-- Stop Button (Hold) -->
-    <rect x="52" y="272" width="122" height="42" rx="14" fill="#ff4d5e" />
-    <text x="113" y="298" class="txt bold" text-anchor="middle" font-size="12" fill="#ffffff">${data.stopBtn}</text>
+    <rect x="64" y="274" width="110" height="42" rx="14" fill="#ff4d5e" />
+    <text x="119" y="300" class="txt bold" text-anchor="middle" font-size="12" fill="#ffffff">${data.stopBtn}</text>
 
     <!-- Pause Button -->
-    <rect x="186" y="272" width="122" height="42" rx="14" fill="#2f80ed" />
-    <text x="247" y="298" class="txt bold" text-anchor="middle" font-size="12" fill="#ffffff">${data.pauseBtn}</text>
+    <rect x="186" y="274" width="110" height="42" rx="14" fill="#2f80ed" />
+    <text x="241" y="300" class="txt bold" text-anchor="middle" font-size="12" fill="#ffffff">${data.pauseBtn}</text>
 
     <!-- Subtle screen edge highlight -->
     <circle cx="180" cy="180" r="179" fill="none" stroke="#222b38" stroke-width="1" opacity="0.6" />
@@ -263,46 +263,46 @@ function renderHomeSvg(raw) {
 
     <!-- Top Header -->
     <g class="txt" text-anchor="middle">
-      <text x="180" y="38" font-size="11" class="bolder" fill="#667085" letter-spacing="2">${data.appName}</text>
-      <text x="180" y="58" font-size="14" class="bold" fill="#ffffff">${data.subTitle}</text>
+      <text x="180" y="40" font-size="11" class="bolder" fill="#667085" letter-spacing="2">${data.appName}</text>
+      <text x="180" y="60" font-size="14" class="bold" fill="#ffffff">${data.subTitle}</text>
     </g>
 
     <!-- Preset Carousel Card -->
-    <rect x="42" y="74" width="276" height="136" rx="18" fill="url(#card-grad)" stroke="#222c3d" stroke-width="1" />
+    <rect x="46" y="76" width="268" height="134" rx="18" fill="url(#card-grad)" stroke="#222c3d" stroke-width="1" />
 
     <g class="txt">
       <!-- Arrow Left -->
-      <text x="68" y="114" font-size="20" class="bold" fill="#2f80ed" text-anchor="middle">&#8249;</text>
+      <text x="70" y="114" font-size="20" class="bold" fill="#2f80ed" text-anchor="middle">&#8249;</text>
       <!-- Preset Title -->
       <text x="180" y="116" font-size="26" class="bolder" fill="#ffffff" text-anchor="middle" letter-spacing="1">${data.presetTitle}</text>
       <!-- Arrow Right -->
-      <text x="292" y="114" font-size="20" class="bold" fill="#2f80ed" text-anchor="middle">&#8250;</text>
+      <text x="290" y="114" font-size="20" class="bold" fill="#2f80ed" text-anchor="middle">&#8250;</text>
 
       <!-- Divider line -->
-      <line x1="60" y1="134" x2="300" y2="134" stroke="#1f2837" stroke-width="1" />
+      <line x1="62" y1="134" x2="298" y2="134" stroke="#1f2837" stroke-width="1" />
 
       <!-- Details 2x2 Grid -->
       <!-- Row 1: Work / Break -->
-      <text x="64" y="156" font-size="11" fill="#7d899b">${data.workLabel}: <tspan class="bold" fill="#ffffff">${data.workVal}</tspan></text>
-      <text x="200" y="156" font-size="11" fill="#7d899b">${data.breakLabel}: <tspan class="bold" fill="#ffa726">${data.breakVal}</tspan></text>
+      <text x="68" y="156" font-size="11" fill="#7d899b">${data.workLabel}: <tspan class="bold" fill="#ffffff">${data.workVal}</tspan></text>
+      <text x="196" y="156" font-size="11" fill="#7d899b">${data.breakLabel}: <tspan class="bold" fill="#ffa726">${data.breakVal}</tspan></text>
 
       <!-- Row 2: Rounds / Total -->
-      <text x="64" y="184" font-size="11" fill="#7d899b">${data.roundsLabel}: <tspan class="bold" fill="#ffffff">${data.roundsVal}</tspan></text>
-      <text x="200" y="184" font-size="11" fill="#7d899b">${data.totalLabel}: <tspan class="bold" fill="#31c48d">${data.totalVal}</tspan></text>
+      <text x="68" y="184" font-size="11" fill="#7d899b">${data.roundsLabel}: <tspan class="bold" fill="#ffffff">${data.roundsVal}</tspan></text>
+      <text x="196" y="184" font-size="11" fill="#7d899b">${data.totalLabel}: <tspan class="bold" fill="#31c48d">${data.totalVal}</tspan></text>
     </g>
 
     <!-- Mid Buttons: Custom & History -->
     <g class="txt" text-anchor="middle">
-      <rect x="52" y="222" width="122" height="36" rx="12" fill="#151b24" stroke="#263143" stroke-width="1" />
-      <text x="113" y="245" font-size="12" class="semibold" fill="#d0d5dd">${data.customBtn}</text>
+      <rect x="58" y="224" width="116" height="36" rx="12" fill="#151b24" stroke="#263143" stroke-width="1" />
+      <text x="116" y="247" font-size="12" class="semibold" fill="#d0d5dd">${data.customBtn}</text>
 
-      <rect x="186" y="222" width="122" height="36" rx="12" fill="#151b24" stroke="#263143" stroke-width="1" />
-      <text x="247" y="245" font-size="12" class="semibold" fill="#d0d5dd">${data.historyBtn}</text>
+      <rect x="186" y="224" width="116" height="36" rx="12" fill="#151b24" stroke="#263143" stroke-width="1" />
+      <text x="244" y="247" font-size="12" class="semibold" fill="#d0d5dd">${data.historyBtn}</text>
     </g>
 
     <!-- Bottom Start Button -->
-    <rect x="65" y="270" width="230" height="46" rx="16" fill="#2f80ed" />
-    <text x="180" y="299" class="txt bold" text-anchor="middle" font-size="15" fill="#ffffff" letter-spacing="0.5">${data.startBtn}</text>
+    <rect x="68" y="272" width="224" height="44" rx="16" fill="#2f80ed" />
+    <text x="180" y="300" class="txt bold" text-anchor="middle" font-size="15" fill="#ffffff" letter-spacing="0.5">${data.startBtn}</text>
 
     <!-- Screen edge highlight -->
     <circle cx="180" cy="180" r="179" fill="none" stroke="#222b38" stroke-width="1" opacity="0.6" />
@@ -341,48 +341,48 @@ function renderCustomSvg(raw) {
     </g>
 
     <!-- Config Card (3 Rows) -->
-    <rect x="42" y="62" width="276" height="188" rx="18" fill="url(#card-grad-c)" stroke="#222c3d" stroke-width="1" />
+    <rect x="46" y="64" width="268" height="186" rx="18" fill="url(#card-grad-c)" stroke="#222c3d" stroke-width="1" />
 
     <g class="txt">
       <!-- Row 1: Work -->
-      <text x="62" y="99" font-size="12" class="semibold" fill="#d0d5dd">${data.workLabel}</text>
+      <text x="64" y="99" font-size="12" class="semibold" fill="#d0d5dd">${data.workLabel}</text>
       <!-- Stepper Controls -->
-      <rect x="176" y="80" width="28" height="28" rx="8" fill="#1e2736" />
-      <text x="190" y="99" font-size="16" class="bold" fill="#2f80ed" text-anchor="middle">−</text>
-      <text x="242" y="100" font-size="13" class="bold" fill="#ffffff" text-anchor="middle">${data.workVal}</text>
-      <rect x="274" y="80" width="28" height="28" rx="8" fill="#1e2736" />
-      <text x="288" y="99" font-size="16" class="bold" fill="#2f80ed" text-anchor="middle">+</text>
+      <rect x="172" y="80" width="28" height="28" rx="8" fill="#1e2736" />
+      <text x="186" y="99" font-size="16" class="bold" fill="#2f80ed" text-anchor="middle">−</text>
+      <text x="238" y="100" font-size="13" class="bold" fill="#ffffff" text-anchor="middle">${data.workVal}</text>
+      <rect x="270" y="80" width="28" height="28" rx="8" fill="#1e2736" />
+      <text x="284" y="99" font-size="16" class="bold" fill="#2f80ed" text-anchor="middle">+</text>
 
-      <line x1="58" y1="124" x2="302" y2="124" stroke="#1f2837" stroke-width="1" />
+      <line x1="60" y1="124" x2="300" y2="124" stroke="#1f2837" stroke-width="1" />
 
       <!-- Row 2: Break -->
-      <text x="62" y="161" font-size="12" class="semibold" fill="#d0d5dd">${data.breakLabel}</text>
+      <text x="64" y="161" font-size="12" class="semibold" fill="#d0d5dd">${data.breakLabel}</text>
       <!-- Stepper Controls -->
-      <rect x="176" y="142" width="28" height="28" rx="8" fill="#1e2736" />
-      <text x="190" y="161" font-size="16" class="bold" fill="#ffa726" text-anchor="middle">−</text>
-      <text x="242" y="162" font-size="13" class="bold" fill="#ffffff" text-anchor="middle">${data.breakVal}</text>
-      <rect x="274" y="142" width="28" height="28" rx="8" fill="#1e2736" />
-      <text x="288" y="161" font-size="16" class="bold" fill="#ffa726" text-anchor="middle">+</text>
+      <rect x="172" y="142" width="28" height="28" rx="8" fill="#1e2736" />
+      <text x="186" y="161" font-size="16" class="bold" fill="#ffa726" text-anchor="middle">−</text>
+      <text x="238" y="162" font-size="13" class="bold" fill="#ffffff" text-anchor="middle">${data.breakVal}</text>
+      <rect x="270" y="142" width="28" height="28" rx="8" fill="#1e2736" />
+      <text x="284" y="161" font-size="16" class="bold" fill="#ffa726" text-anchor="middle">+</text>
 
-      <line x1="58" y1="186" x2="302" y2="186" stroke="#1f2837" stroke-width="1" />
+      <line x1="60" y1="186" x2="300" y2="186" stroke="#1f2837" stroke-width="1" />
 
       <!-- Row 3: Rounds -->
-      <text x="62" y="223" font-size="12" class="semibold" fill="#d0d5dd">${data.roundsLabel}</text>
+      <text x="64" y="223" font-size="12" class="semibold" fill="#d0d5dd">${data.roundsLabel}</text>
       <!-- Stepper Controls -->
-      <rect x="176" y="204" width="28" height="28" rx="8" fill="#1e2736" />
-      <text x="190" y="223" font-size="16" class="bold" fill="#31c48d" text-anchor="middle">−</text>
-      <text x="242" y="224" font-size="14" class="bold" fill="#ffffff" text-anchor="middle">${data.roundsVal}</text>
-      <rect x="274" y="204" width="28" height="28" rx="8" fill="#1e2736" />
-      <text x="288" y="223" font-size="16" class="bold" fill="#31c48d" text-anchor="middle">+</text>
+      <rect x="172" y="204" width="28" height="28" rx="8" fill="#1e2736" />
+      <text x="186" y="223" font-size="16" class="bold" fill="#31c48d" text-anchor="middle">−</text>
+      <text x="238" y="224" font-size="14" class="bold" fill="#ffffff" text-anchor="middle">${data.roundsVal}</text>
+      <rect x="270" y="204" width="28" height="28" rx="8" fill="#1e2736" />
+      <text x="284" y="223" font-size="16" class="bold" fill="#31c48d" text-anchor="middle">+</text>
     </g>
 
     <!-- Bottom Buttons: Cancel & Save -->
     <g class="txt" text-anchor="middle">
-      <rect x="52" y="268" width="122" height="44" rx="14" fill="#151b24" stroke="#263143" stroke-width="1" />
-      <text x="113" y="295" font-size="13" class="semibold" fill="#d0d5dd">${data.cancelBtn}</text>
+      <rect x="60" y="268" width="114" height="42" rx="14" fill="#151b24" stroke="#263143" stroke-width="1" />
+      <text x="117" y="294" font-size="13" class="semibold" fill="#d0d5dd">${data.cancelBtn}</text>
 
-      <rect x="186" y="268" width="122" height="44" rx="14" fill="#2f80ed" />
-      <text x="247" y="295" font-size="13" class="bold" fill="#ffffff">${data.saveBtn}</text>
+      <rect x="186" y="268" width="114" height="42" rx="14" fill="#2f80ed" />
+      <text x="243" y="294" font-size="13" class="bold" fill="#ffffff">${data.saveBtn}</text>
     </g>
 
     <!-- Screen edge highlight -->

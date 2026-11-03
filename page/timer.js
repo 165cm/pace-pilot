@@ -53,8 +53,9 @@ Page({
   },
 
   buildTimeline() {
+    const sideMargin = IS_SQUARE ? SAFE_SIDE : px(106);
     const gap = px(6);
-    const columnWidth = Math.floor((WIDTH - SAFE_SIDE * 2 - gap * 2) / 3);
+    const columnWidth = Math.floor((WIDTH - sideMargin * 2 - gap * 2) / 3);
     const labels = [
       getText("timelineStart"),
       getText("timelineNow"),
@@ -62,28 +63,28 @@ Page({
     ];
     const keys = ["startTimeText", "currentTimeText", "endTimeText"];
     labels.forEach((label, index) => {
-      const x = SAFE_SIDE + index * (columnWidth + gap);
+      const x = sideMargin + index * (columnWidth + gap);
       hmUI.createWidget(hmUI.widget.TEXT, textStyle({
         x, y: SAFE_TOP, w: columnWidth, h: px(20),
-        text: label, size: 14, color: COLORS.muted,
+        text: label, size: IS_SQUARE ? 14 : 13, color: COLORS.muted,
       }));
       this.state[keys[index]] = hmUI.createWidget(
         hmUI.widget.TEXT,
         textStyle({
-          x, y: SAFE_TOP + px(19), w: columnWidth, h: px(31),
-          text: "", size: IS_SQUARE ? 22 : 23,
+          x, y: SAFE_TOP + px(IS_SQUARE ? 19 : 21), w: columnWidth, h: px(31),
+          text: "", size: IS_SQUARE ? 22 : 21,
         }),
       );
     });
 
     const rounds = this.state.session.rounds || 3;
-    const barY = SAFE_TOP + px(57);
+    const barY = SAFE_TOP + px(IS_SQUARE ? 57 : 58);
     const gapWidth = rounds > 6 ? px(2) : px(4);
-    const totalWidth = WIDTH - SAFE_SIDE * 2;
+    const totalWidth = WIDTH - sideMargin * 2;
     const totalGaps = (rounds - 1) * gapWidth;
     const segmentWidth = Math.max(px(2), Math.floor((totalWidth - totalGaps) / rounds));
     this.state.roundSegments = Array.from({ length: rounds }, (_, index) => {
-      const x = SAFE_SIDE + index * (segmentWidth + gapWidth);
+      const x = sideMargin + index * (segmentWidth + gapWidth);
       hmUI.createWidget(hmUI.widget.FILL_RECT, {
         x, y: barY, w: segmentWidth, h: px(8),
         color: COLORS.faint, radius: px(4),
@@ -96,9 +97,9 @@ Page({
   },
 
   buildRoundTimer() {
-    const arcSize = px(IS_SQUARE ? 246 : 250);
+    const arcSize = px(IS_SQUARE ? 246 : 246);
     const arcX = Math.round((WIDTH - arcSize) / 2);
-    const arcY = px(IS_SQUARE ? 88 : 94);
+    const arcY = px(IS_SQUARE ? 88 : 98);
     hmUI.createWidget(hmUI.widget.ARC, {
       x: arcX, y: arcY, w: arcSize, h: arcSize,
       start_angle: ARC_START, end_angle: ARC_START + ARC_SWEEP,
@@ -122,7 +123,7 @@ Page({
       text: "", size: 21, color: COLORS.muted,
     }));
 
-    const controlsY = HEIGHT - SAFE_BOTTOM - px(54);
+    const controlsY = HEIGHT - SAFE_BOTTOM - px(52);
     const skipW = px(136);
     const skipH = px(30);
     const skipY = controlsY - skipH - px(IS_SQUARE ? 8 : 12);
@@ -135,18 +136,19 @@ Page({
   },
 
   buildControls() {
-    const y = HEIGHT - SAFE_BOTTOM - px(54);
-    const controls = twoButtonLayout({ width: WIDTH, margin: SAFE_SIDE, gap: px(10) });
+    const buttonMargin = IS_SQUARE ? SAFE_SIDE : px(68);
+    const y = HEIGHT - SAFE_BOTTOM - px(52);
+    const controls = twoButtonLayout({ width: WIDTH, margin: buttonMargin, gap: px(10) });
     hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
-      x: controls.left.x, y, w: controls.left.w, h: px(54),
-      text: `■ ${getText("stop")}`, size: 19,
+      x: controls.left.x, y, w: controls.left.w, h: px(52),
+      text: `■ ${getText("stop")}`, size: IS_SQUARE ? 19 : 18,
       normal: COLORS.danger, pressed: COLORS.dangerPressed,
       click: () => showToast({ content: getText("holdToStopNotice") }),
       longpress: () => this.end(),
     }));
     this.state.pauseButton = hmUI.createWidget(hmUI.widget.BUTTON, buttonStyle({
-      x: controls.right.x, y, w: controls.right.w, h: px(54),
-      text: `Ⅱ ${getText("pause")}`, size: 19,
+      x: controls.right.x, y, w: controls.right.w, h: px(52),
+      text: `Ⅱ ${getText("pause")}`, size: IS_SQUARE ? 19 : 18,
       normal: COLORS.primaryAction, pressed: COLORS.panelPressed,
       click: () => this.togglePause(),
     }));
